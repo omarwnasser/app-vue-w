@@ -7,6 +7,11 @@
   ],
   "compilerOptions": {
     "experimentalDecorators": true,
+    "verbatimModuleSyntax": false,
+    "preserveValueImports": false,
+    "importsNotUsedAsValues": "remove",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [
