@@ -55,7 +55,7 @@ export default class UserController extends Base{
     }
 
     async getSession(req:Request,res:Response){
-        res.send({success: true, docs: {sessionId: req.sessionID, session: req.session.passport.user,sessionStore: req.sessionStore}})
+        res.send({success: true, docs: {sessionId: req.sessionID, session: req.session.passport,sessionStore: req.sessionStore}})
     }
 
 }   
