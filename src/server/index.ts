@@ -7,6 +7,13 @@ import './config/db';
 import passport from './config/passport';
 import router from './router';
 import session from 'express-session';
+import MongoStore from 'connect-mongo';
+
+declare module 'express-session' {
+        interface SessionData {
+            passport: string;
+        }
+    }
  
 
 const app = express()
@@ -20,6 +27,7 @@ app.use( session({
     cookie: {
         maxAge: 24*60*60*1000
     },
+    store: new MongoStore({ mongoUrl: 'mongodb://localhost:27017/session' })
 }))
 
 app.use(passport.initialize())
@@ -28,6 +36,7 @@ app.use(express.static(path.join(__dirname, '..','..','/dist')))
 app.use('/api',router);
 
 app.get('/',(req: Request,res: Response ,next: NextFunction)=>{
+    
     res.sendFile(path.join(__dirname, '..','..','/dist/index.html'))
 })
 
