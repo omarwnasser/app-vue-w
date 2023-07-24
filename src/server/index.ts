@@ -7,14 +7,15 @@ import './config/db';
 import passport from './config/passport';
 import router from './router';
 import session from 'express-session';
-import MongoStore from 'connect-mongo';
-
-declare module 'express-session' {
-        interface SessionData {
-            passport: string;
-        }
-    }
+import MongoSession from 'connect-mongo';
+import Morgan from 'morgan';
  
+declare module "express-session" {
+    interface SessionData {
+      passport: any;
+    }
+  }
+
 
 const app = express()
 
@@ -22,15 +23,23 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 app.use( session({
     secret: process.env.Session_key ?? 'lsl&%KHk88jkHJk',
-    resave: false,
-    saveUninitialized: true,
+    resave: true,
+    saveUninitialized: false,
     cookie: {
-        maxAge: 24*60*60*1000
+        maxAge: 24*60*60*1000,
+        secure: false,
     },
-    store: new MongoStore({ mongoUrl: 'mongodb://localhost:27017/session' })
-}))
+    store: new MongoSession({
+        mongoUrl: process.env.Mongodb_Url,
+        collectionName: 'session',
+        autoRemove: "native",
+    })
+}));
+
+app.use(Morgan('short'))
 
 app.use(passport.initialize())
+app.use(passport.session())
 app.use(express.static(path.join(__dirname, '..','..','/dist')))
 
 app.use('/api',router);

@@ -12,7 +12,15 @@ router.route('/login').post(passport.authenticate('local', {
     failureRedirect: '/login'
   }));
 
-router.route('/register').post(authCtrl.register);
+router.route('/register').post(authCtrl.register); // {username: '',password: ''}
+
+router.route('/change_my_password').patch(authCtrl.resetMyPassword); // {new_password: ''}
+
+router.route('/change_password').patch(authCtrl.resetPassword); // {username: '', new_password: ''}
+
+router.route('/logout').get(authCtrl.logout)
+
+router.route('/session').get(authCtrl.getSession);
 
 router.route('/session').get(mw.isLogin,(req,res)=>{
   res.send({success: true, docs: req.user , sessionStore: req.sessionStore,session: req.session , sessionId: req.sessionID})
