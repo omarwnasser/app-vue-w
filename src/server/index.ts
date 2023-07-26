@@ -45,6 +45,7 @@ app.use(express.static(path.join(__dirname, '..','..','/dist')))
 app.use('/api',router);
 
 app.get('/',(req: Request,res: Response ,next: NextFunction)=>{
+    
     res.sendFile(path.join(__dirname, '..','..','/dist/index.html'))
 })
 
