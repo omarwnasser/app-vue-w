@@ -4,10 +4,6 @@ import {Post} from '../model';
 
 export default class PostController extends BaseController{
 
-
-    constructor(){
-        super(Post)
-    }
-
+    constructor(){super(Post)}
     
 }

@@ -1,10 +1,11 @@
 import {Request, Response} from 'express';
 import Base from './base.controller';
 import {User} from '../model';
+import { Model, Document } from 'mongoose';
 
 
 export default class UserController extends Base{
-
+    
     constructor(){
         super(User)
     }

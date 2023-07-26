@@ -4,10 +4,5 @@ import {Comment} from '../model';
 
 export default class CommentController extends BaseController{
 
-
-    constructor(){
-        super(Comment)
-    }
-
-    
+    constructor(){super(Comment)}
 }
