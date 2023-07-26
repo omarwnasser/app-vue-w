@@ -6,7 +6,7 @@ export default class BaseController {
 
    constructor( private model: Model<Document>){}
 
-    async getAll(req: Request, res: Response) {
+   getAll = async (req: Request, res: Response) => {
         await this.model.find({}).then(e => {
             res.send({ success: true, docs: e })
         }).catch(err => {
@@ -14,7 +14,7 @@ export default class BaseController {
         })
     }
 
-    async insert(req: Request, res: Response) {
+    insert = async (req: Request, res: Response) => {
         const data = req.body;
         const docs = new this.model(data);
         docs.save().then(e => {
@@ -24,7 +24,7 @@ export default class BaseController {
         })
     }
 
-    async delete(req: Request, res: Response) {
+    delete = async (req: Request, res: Response) => {
         await this.model.deleteOne({_id: req.params.id}).then(e => {
             res.send({ success: true, docs: e })
         }).catch(err => {

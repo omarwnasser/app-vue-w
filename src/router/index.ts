@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue';
+import Login from '../views/Login.vue';
+import Register from '../views/register.vue';
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -9,6 +11,22 @@ const routes: Array<RouteRecordRaw> = [
         component: Home,
         meta: {
             title: "الصفحة الرئيسية",
+        }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login,
+        meta: {
+            title: "صفحة تسجيل الدخول",
+        }
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: Register,
+        meta: {
+            title: "صفحة تسجيل الدخول",
         }
     }
 ];
