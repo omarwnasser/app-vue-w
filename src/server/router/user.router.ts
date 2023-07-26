@@ -31,5 +31,9 @@ router.route('/logout').get((req,res)=>{
   });
 });
 
+router.route('/test').get((req,res)=>{
+  res.send({success: true, docs: {message: 'its work'}})
+});
+
 
 export default router;

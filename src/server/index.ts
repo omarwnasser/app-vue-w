@@ -9,6 +9,8 @@ import router from './router';
 import session from 'express-session';
 import MongoSession from 'connect-mongo';
 import Morgan from 'morgan';
+import cors from 'cors';
+
  
 declare module "express-session" {
     interface SessionData {
@@ -18,6 +20,9 @@ declare module "express-session" {
 
 
 const app = express()
+
+if(process.env.MODE == 'Development')
+    app.use(cors())
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())

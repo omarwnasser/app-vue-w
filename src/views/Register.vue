@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-screen bg-gray-200 flex justify-center items-center" dir="rtl">
-        <div class="w-full h-screen md:w-80 md:h-auto bg-white rounded-md p-4">
+        <div class="w-full h-screen md:w-80 md:h-auto bg-white rounded-md p-10">
             <h1 class="text-center my-10">صفحة تسجيل الدخول</h1>
             <div>
                 <div class="grid grid-cols-1">
