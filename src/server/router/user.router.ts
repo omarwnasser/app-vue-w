@@ -7,7 +7,7 @@ const authCtrl = new AuthCtrl();
 const router = Router();
 
 router.route('/login').post(passport.authenticate('local', {
-    successRedirect: '/',
+    successRedirect: '/api/user/session',
     failureRedirect: '/login'
   }));
 
@@ -19,11 +19,11 @@ router.route('/change_password').patch(authCtrl.resetPassword); // {username: ''
 
 router.route('/logout').get(authCtrl.logout)
 
-router.route('/session').get(isHasPermission.isHasPermission,authCtrl.getSession);
+router.route('/session').get(authCtrl.getSession);
 
-router.route('/session').get(isLoginMiddleware.isLogin,(req,res)=>{
-  res.send({success: true, docs: req.user , sessionStore: req.sessionStore,session: req.session , sessionId: req.sessionID})
-});
+// router.route('/session').get(isLoginMiddleware.isLogin,(req,res)=>{
+//   res.send({success: true, docs: req.user , sessionStore: req.sessionStore,session: req.session , sessionId: req.sessionID})
+// });
 
 router.route('/logout').get((req,res)=>{
   req.logout(()=>{

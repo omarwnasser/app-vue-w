@@ -11,27 +11,27 @@ import MongoSession from 'connect-mongo';
 import Morgan from 'morgan';
 import cors from 'cors';
 
- 
+
 declare module "express-session" {
     interface SessionData {
-      passport: any;
+        passport: any;
     }
-  }
-
+}
 
 const app = express()
 
-if(process.env.MODE == 'Development')
+app.use(express.json())
+
+if (process.env.MODE == 'Development')
     app.use(cors())
 
-app.use(express.urlencoded({extended: true}));
-app.use(express.json())
-app.use( session({
+app.use(express.urlencoded({ extended: true }));
+app.use(session({
     secret: process.env.Session_key ?? 'lsl&%KHk88jkHJk',
     resave: true,
     saveUninitialized: false,
     cookie: {
-        maxAge: 24*60*60*1000,
+        maxAge: 24 * 60 * 60 * 1000,
         secure: false,
     },
     store: new MongoSession({
@@ -45,17 +45,17 @@ app.use(Morgan('short'))
 
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.static(path.join(__dirname, '..','..','/dist')))
+app.use(express.static(path.join(__dirname, '..', '..', '/dist')))
 
-app.use('/api',router);
+app.use('/api', router);
 
-app.get('/',(req: Request,res: Response ,next: NextFunction)=>{
-    
-    res.sendFile(path.join(__dirname, '..','..','/dist/index.html'))
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
+
+    res.sendFile(path.join(__dirname, '..', '..', '/dist/index.html'))
 })
 
 app.use(history())
 
 
 
-app.listen(process.env.Port, () => console.log("Server started at port "+process.env.Port))
+app.listen(process.env.Port, () => console.log("Server started at port " + process.env.Port))
