@@ -1,13 +1,16 @@
-import {Schema, model, Model, Document} from 'mongoose';
+import {Schema, model} from 'mongoose';
 import plm from 'passport-local-mongoose';
 
-const UserSchema =  new Schema({
-        email: {type: String, require: true, unique: true},
-        permissions: [{type: String}],
-        roles: [{type: String}],
-        activate: {type: Boolean, default: true},
-    },{timestamps: true});
+const UserSchema = new Schema({
+    email: {type: String,unique: true, require: true},
+    roles : {type: [String], default: ['user']},
+    permissions: {type: [String]},
+    isActive: {type: Boolean, default: true},
+    rm: {type: Number, default: 0}
+})
 
 UserSchema.plugin(plm);
 
-export const User = model('User',UserSchema);
+const User = model("User",UserSchema);
+
+export {User};

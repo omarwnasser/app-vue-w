@@ -1,36 +1,34 @@
 import express, { type NextFunction, type Request, type Response } from "express"
-<<<<<<< HEAD
-import path from "path"
-import history from "connect-history-api-fallback";
-
-
-const app = express()
-
-app.use(express.static(path.join(__dirname, '..','..','/dist')))
-
-app.get('/',(req: Request,res: Response ,next: NextFunction)=>{
-    res.sendFile(path.join(__dirname, '..','..','/dist/index.html'))
-=======
 import path from "path";
 import 'dotenv/config';
 import history from "connect-history-api-fallback";
-// import mongoose from "mongoose";
-import './config/db';
-import passport from './config/passport';
-import router from './router';
 import session from 'express-session';
 import MongoSession from 'connect-mongo';
 import Morgan from 'morgan';
 import cors from 'cors';
+import passport from 'passport';
+import localStrategy from 'passport-local';
+import {User} from './model';
+import router from './router';
+import mongoose from 'mongoose';
 
 
-declare module "express-session" {
-    interface SessionData {
-        passport: any;
-    }
-}
+// declare module "express-session" {
+//     interface SessionData {
+//         passport: any;
+//     }
+// }
 
 const app = express()
+app.use(express.static(path.join(__dirname, '..', '..', '/dist')))
+
+mongoose.connect(process.env.Mongodb_Url ?? 'mongodb://127.0.0.1:27017/vue_app')
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error: "));
+db.once("open", function () {
+  console.log("Connected successfully");
+});
 
 app.use(express.json())
 
@@ -40,8 +38,8 @@ if (process.env.MODE == 'Development')
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.Session_key ?? 'lsl&%KHk88jkHJk',
-    resave: true,
-    saveUninitialized: false,
+    resave: false,
+    saveUninitialized: true,
     cookie: {
         maxAge: 24 * 60 * 60 * 1000,
         secure: false,
@@ -55,24 +53,25 @@ app.use(session({
 
 app.use(Morgan('short'))
 
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(express.static(path.join(__dirname, '..', '..', '/dist')))
+
+app.use(history())
+
 
 app.use('/api', router);
 
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
-
     res.sendFile(path.join(__dirname, '..', '..', '/dist/index.html'))
->>>>>>> 1c172f99c9b1716d3efc0e5e5581d3e820ab13cf
 })
 
-app.use(history())
 
-<<<<<<< HEAD
-app.listen(3002, () => console.log("Server started at port 3002"))
-=======
+
 
 
 app.listen(process.env.Port, () => console.log("Server started at port " + process.env.Port))
->>>>>>> 1c172f99c9b1716d3efc0e5e5581d3e820ab13cf

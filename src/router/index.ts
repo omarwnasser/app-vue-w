@@ -1,10 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue';
-<<<<<<< HEAD
-=======
 import Login from '../views/Login.vue';
-import Register from '../views/register.vue';
->>>>>>> 1c172f99c9b1716d3efc0e5e5581d3e820ab13cf
+import Register from '../views/Register.vue';
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -15,8 +12,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "الصفحة الرئيسية",
         }
-<<<<<<< HEAD
-=======
     },
     {
         path: '/login',
@@ -33,7 +28,6 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title: "صفحة تسجيل الدخول",
         }
->>>>>>> 1c172f99c9b1716d3efc0e5e5581d3e820ab13cf
     }
 ];
 

@@ -38,9 +38,9 @@ const user = reactive({
 })
 
 onMounted(()=>{
-    axios.get('/user/test').then(e=>{
-        console.log(e);
-    })
+    // axios.get('/user/test').then(e=>{
+    //     console.log(e);
+    // })
 })
 
 const login = async ()=>{

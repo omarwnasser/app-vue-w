@@ -9,6 +9,10 @@
                         <input type="text" v-model="user.username" name="username" id="username" class="w-full border p-2 rounded-md my-2 focus:border-green-700 focus:outline-none focus:border-b-2">
                     </div>
                     <div class="grid grid-cols-1">
+                        <label class="text-sm" for="email">البريد الالكتروني</label>
+                        <input pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" type="email" v-model="user.email" name="email" id="email" class="w-full border p-2 rounded-md my-2 focus:border-green-700 focus:outline-none focus:border-b-2">
+                    </div>
+                    <div class="grid grid-cols-1">
                         <label class="text-sm" for="password">كلمة المرور</label>
                         <input type="password" v-model="user.password" name="password" id="password" class="w-full border p-2 rounded-md my-2 focus:border-green-700 focus:outline-none focus:border-b-2">
                     </div>
@@ -39,23 +43,30 @@ const userStore = useUserStore();
 const user = reactive({
     username: '',
     password: '',
+    email: ''
 });
 const password_confirm = ref('');
 
 const register = ()=>{
-    if(user.password && user.password == password_confirm.value)
-        axios.post('/user/register',user).then(e=>{
-            if(e.data.success){
-                Swal.success('تم التسجيل بنجاح')
-                console.log(e.data);
-            }else
-                Swal.error(e.data.error.message)
-        },error =>{
-            Swal.error('حدث خطأ في عملية التسجيل')
-            console.log(error)
-        })
+    if(user.username && user.username.length >= 6)
+        if(user.password && user.password == password_confirm.value)
+            if(user.email)
+                axios.post('/user/register',user).then(e=>{
+                    if(e.data.success){
+                        Swal.success('تم التسجيل بنجاح')
+                        console.log(e.data);
+                    }else
+                        Swal.error(e.data.error.message)
+                },error =>{
+                    Swal.error('حدث خطأ في عملية التسجيل')
+                    console.log(error)
+                })
+                else
+                    Swal.error('يجب استخدام بريد الكتروني  صحيح')
+        else
+            Swal.error('كلمتي المرور غير متطابقتين')
     else
-        Swal.error('كلمتي المرور غير متطابقتين')
+        Swal.error('يجب ادخال اسم المستخدم صحيح او يجب ان يكون 6 حروف او اكثر')
 }
 
 </script>
