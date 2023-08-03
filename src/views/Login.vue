@@ -28,6 +28,7 @@
 
 import {inject, onMounted, reactive } from 'vue';
 import {useUserStore} from '@/services/userStore';
+import router from '@/router';
 
 const axios = inject('axios');
 const userStore = useUserStore();
@@ -38,15 +39,18 @@ const user = reactive({
 })
 
 onMounted(()=>{
-    // axios.get('/user/test').then(e=>{
-    //     console.log(e);
-    // })
+    console.log(userStore.user);
+    axios.get('/user/test').then(e=>{
+        console.log(e);
+    })
 })
 
 const login = async ()=>{
     await axios.post('/user/login',{username: user.username ,password: user.password}).then(e=>{
-        console.log(e.data);
-       if(e.data.success){
+        if(e.data.success){
+           userStore.login(e.data.docs);
+           console.log(userStore.user);
+           router.push('/')
        }
     })
 }

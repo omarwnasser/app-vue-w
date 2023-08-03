@@ -13,14 +13,16 @@ import router from './router';
 import mongoose from 'mongoose';
 
 
-// declare module "express-session" {
-//     interface SessionData {
-//         passport: any;
-//     }
-// }
+declare module "express-session" {
+    interface SessionData {
+        user: any;
+        passport: any;
+    }
+}
 
 const app = express()
 app.use(express.static(path.join(__dirname, '..', '..', '/dist')))
+app.use(history())
 
 mongoose.connect(process.env.Mongodb_Url ?? 'mongodb://127.0.0.1:27017/vue_app')
 
@@ -61,7 +63,6 @@ passport.deserializeUser(User.deserializeUser());
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(history())
 
 
 app.use('/api', router);

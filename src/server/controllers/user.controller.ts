@@ -25,6 +25,7 @@ export default class UserController extends BaseController{
                         res.json({ success: false, message: "username or password incorrect" });
                     }
                     else {
+                        req.session.user = {username: user.username, _id: user._id, roles: user.roles, permissions: user.permissions}
                         // const token = jwt.sign({ userId: user._id, username: user.username }, secretkey, { expiresIn: "24h" });
                         res.json({ success: true, message: "Authentication successful", docs: {username: user.username, _id: user._id, roles: user.roles, permissions: user.permissions} });
                     }
@@ -63,5 +64,16 @@ export default class UserController extends BaseController{
             }
          });
     }
+
+    logout =  async (req: Request, res: Response)=>{
+        if (req.session.user._id) {
+                req.session.destroy(function(err){ return  res.json({ success: false, message: 'حدث خطأ عند عملية الخروج' })})
+            res.clearCookie('connect.sid') // clean up!
+            return res.json({ success: true, message: 'logging you out' })
+          } else {
+            return res.json({ success: true, message: 'no user to log out!' })
+          }
+    }
+
 
 }

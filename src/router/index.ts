@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
+import Request from '../services/Request';
+import {useUserStore} from '../services/userStore';
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -25,6 +27,19 @@ const routes: Array<RouteRecordRaw> = [
         path: '/register',
         name: 'register',
         component: Register,
+        meta: {
+            title: "صفحة تسجيل الدخول",
+        }
+    },
+    {
+        path: '/logout',
+        name: 'logout',
+        redirect:  (to)=> {
+             Request.get('/user/logout').then((value)=>{
+                useUserStore().logout()
+            })
+            return {name: 'login'};  
+        },
         meta: {
             title: "صفحة تسجيل الدخول",
         }

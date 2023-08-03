@@ -8,11 +8,13 @@ import './assets/main.css'
 import axios from './services/Request';
 import vueAxios from 'vue-axios';
 
-const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate );
+const app = createApp(App)
 
-const app = createApp(App).use(pinia);
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
 app.use(vueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios);
+app.use(pinia);
 app.use(router);
 app.mount('#app');

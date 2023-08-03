@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore('counter', {
+export const useUserStore = defineStore('userAuth', {
   state: () => {
     return { 
         user: {
@@ -12,6 +12,7 @@ export const useUserStore = defineStore('counter', {
         } 
     }
   },
+  persist: true,
   // could also be defined as
   // state: () => ({ count: 0 })
   actions: {
